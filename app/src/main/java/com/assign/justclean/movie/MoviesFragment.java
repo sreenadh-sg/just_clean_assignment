@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.assign.justclean.R;
 import com.assign.justclean.model.Movie;
@@ -30,7 +31,8 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
     @Inject
     MoviePresenter presenter;
 
-    ViewPager mPager;
+    ProgressBar loadMoviesPB;
+    ViewPager moviesViewPager;
     MovieSlidePagerAdapter movieSlidePagerAdapter;
     int movieType=-1;
     @Nullable
@@ -43,18 +45,23 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle receiveBundle=getArguments();
-
+        moviesViewPager =  view.findViewById(R.id.pager);
+        loadMoviesPB=view.findViewById(R.id.load_movies);
         if(receiveBundle!=null&&!receiveBundle.isEmpty()){
             movieType=receiveBundle.getInt("SELECTED_TYPE",-1);
-           if(movieType==1)
+           if (movieType ==0)
+              fetchPopularMovies();
+           else if(movieType==1)
                 fetchTopRatedMovies();
+           else
+               fetchUpcomingMovies();
 
         }
 
-        mPager = (ViewPager) view.findViewById(R.id.pager);
+
 
         movieSlidePagerAdapter = new MovieSlidePagerAdapter(getChildFragmentManager());
-        mPager.setAdapter(movieSlidePagerAdapter);
+        moviesViewPager.setAdapter(movieSlidePagerAdapter);
     }
 
 
@@ -71,8 +78,16 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stop();
+    }
+
+    @Override
     public void fetchTopRatedMovies() {
+
         presenter.fetchMovie(movieType);
+
     }
 
     @Override
@@ -88,6 +103,19 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
             movieSlidePagerAdapter.setData(result);
             movieSlidePagerAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void startProgressBar() {
+        moviesViewPager.setVisibility(View.INVISIBLE);
+        loadMoviesPB.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void stopProgressBar() {
+        moviesViewPager.setVisibility(View.VISIBLE);
+        loadMoviesPB.setVisibility(View.INVISIBLE);
     }
 
     @Override

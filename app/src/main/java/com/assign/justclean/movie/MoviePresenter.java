@@ -28,6 +28,8 @@ public class MoviePresenter extends BasePresenter<MovieDisplayContract.MovieView
     @Override
     public void fetchMovie(int type) {
 
+        view.startProgressBar();
+
         String movieType="";
         if(type==0)
             movieType="popular";
@@ -41,8 +43,10 @@ public class MoviePresenter extends BasePresenter<MovieDisplayContract.MovieView
 
     }
 
-
-
+    @Override
+    public void stop() {
+        super.stop();
+    }
 
     public DisposableObserver<MovieResponse> getObserver(){
         return new DisposableObserver<MovieResponse>() {
@@ -61,6 +65,7 @@ public class MoviePresenter extends BasePresenter<MovieDisplayContract.MovieView
 
             @Override
             public void onComplete() {
+                view.stopProgressBar();
                 Log.d(TAG,"Completed");
             }
         };

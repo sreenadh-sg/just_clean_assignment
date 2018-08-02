@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">JustCleanAssignment</string>
     <string name="buy_now">Buy Now</string>
+    <string name="relase_date">Release Date : </string>
+    <string name="vote_avg">Vote Avg : </string>
+    <string name="popular_text">Popular</string>
+    <string name="top_rated_text">Top rated</string>
+    <string name="upcoming_text">Upcoming</string>
 </resources>

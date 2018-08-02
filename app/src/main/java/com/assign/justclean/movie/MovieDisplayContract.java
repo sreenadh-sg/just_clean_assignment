@@ -9,6 +9,8 @@ public class MovieDisplayContract {
         void fetchPopularMovies();
         void fetchTopRatedMovies();
         void fetchUpcomingMovies();
+        void startProgressBar();
+        void stopProgressBar();
 
         //handling movies
         void displayMovies(MovieResponse movieResponse);

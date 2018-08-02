@@ -4,7 +4,6 @@ import android.content.Context;
 
 
 import com.assign.justclean.App;
-import com.assign.justclean.CommonHelloService;
 
 import javax.inject.Singleton;
 
@@ -19,9 +18,5 @@ public class AppModule {
         return application.getApplicationContext();
     }
 
-    @Singleton
-    @Provides
-    CommonHelloService provideCommonHelloService() {
-        return new CommonHelloService();
-    }
+
 }

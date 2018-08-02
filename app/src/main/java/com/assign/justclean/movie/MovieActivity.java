@@ -34,22 +34,19 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
 
     }
     public void setupTabs(){
-        tabLayout.addTab(tabLayout.newTab().setText("Popular"));
-        tabLayout.addTab(tabLayout.newTab().setText("Top rated"));
-        tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
-
-
-
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.popular_text)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.top_rated_text)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.upcoming_text)));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tabLayout.getSelectedTabPosition() == 0){
-                    //fetchPopularMovies();
+                    addFragment(0);
                 }else if(tabLayout.getSelectedTabPosition() == 1){
                     addFragment(1);
                 }else {
-                    //fetchUpcomingMovies();
+                    addFragment(2);
                 }
             }
 
