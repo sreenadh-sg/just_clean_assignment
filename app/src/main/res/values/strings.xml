@@ -6,4 +6,21 @@
     <string name="popular_text">Popular</string>
     <string name="top_rated_text">Top rated</string>
     <string name="upcoming_text">Upcoming</string>
+
+    <string name="movie_info_text">Movie Info </string>
+    <string name="genres_text">Genres</string>
+    <string name="popularity_text">Popularity</string>
+    <string name="rating_text">Rating</string>
+    <string name="revenue_text">Revenue</string>
+    <string name="adult_text">Adult</string>
+    <string name="vote_count">Vote Count</string>
+    <string name="vote_avg_text">Vote Average</string>
+    <string name="divider_text">:</string>
+    <string name="description">Description</string>
+    <string name="movie_info">This screen should show the movie details, like
+            Cover, Backdrop, title, description, genres, popularity, rating, revenue, adult, vote count and vote average
+            </string>
+    <string name="yes_text">Yes</string>
+    <string name="no_text">No</string>
+    <string name="action_search">Search</string>
 </resources>

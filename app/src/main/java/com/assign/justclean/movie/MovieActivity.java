@@ -5,8 +5,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.assign.justclean.R;
+import com.assign.justclean.misc.AppConstants;
 
 import javax.inject.Inject;
 
@@ -20,6 +24,7 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    Toolbar toolbar;
 
     TabLayout tabLayout;
     @Override
@@ -28,6 +33,9 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
 
         AndroidInjection.inject(this);
         setContentView(R.layout.activity_movie);
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("");
 
         tabLayout= findViewById(R.id.tabs);
         setupTabs();
@@ -66,55 +74,34 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
             tab.select();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.movies_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
     public void addFragment(int position){
 
-           // Log.i(TAG, "onCreate: adding ImageSelectorFragment to MainActivity");
 
-            // Add image selector fragment to the activity's container layout
             MoviesFragment movieFragment = new MoviesFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.container, movieFragment,
                     MoviesFragment.class.getName());
             Bundle arguments=new Bundle();
-            arguments.putInt("SELECTED_TYPE",position);
+            arguments.putInt(AppConstants.SELECTED_MOVIE_LIST_TYPE,position);
             movieFragment.setArguments(arguments);
 
             // Commit the transaction
             fragmentTransaction.commit();
     }
 
-   /* @Override
-    public void fetchPopularMovies() {
-        presenter.fetchMovie(0);
-
-    }
-
-    @Override
-    public void fetchTopRatedMovies() {
-        presenter.fetchMovie(1);
-    }
-
-    @Override
-    public void fetchUpcomingMovies() {
-        presenter.fetchMovie(2);
-
-    }
-
-    @Override
-    public void displayMovies(MovieResponse movieResponse) {
-
-        if(movieResponse!=null){
-            List<Movie> result=movieResponse.getResults();
-            Log.v("Test","Size - "+result.size());
-        }
-
-    }
-
-    @Override
-    public void displayMovieError(Throwable throwable) {
-
-    }
-*/
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;

@@ -38,8 +38,8 @@ public class MoviePresenter extends BasePresenter<MovieDisplayContract.MovieView
         else
             movieType="upcoming";
 
-        movieFetchingHandler.getObservable(movieType).subscribeOn(schedulersFacade.io())
-                .observeOn(schedulersFacade.ui()).subscribe(getObserver());
+        addDisposible(movieFetchingHandler.getObservable(movieType).subscribeOn(schedulersFacade.io())
+                .observeOn(schedulersFacade.ui()).subscribeWith(getObserver()));
 
     }
 

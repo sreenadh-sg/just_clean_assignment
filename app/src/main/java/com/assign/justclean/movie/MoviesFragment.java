@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.assign.justclean.R;
+import com.assign.justclean.misc.AppConstants;
 import com.assign.justclean.model.Movie;
 import com.assign.justclean.model.MovieResponse;
 
@@ -48,7 +49,7 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
         moviesViewPager =  view.findViewById(R.id.pager);
         loadMoviesPB=view.findViewById(R.id.load_movies);
         if(receiveBundle!=null&&!receiveBundle.isEmpty()){
-            movieType=receiveBundle.getInt("SELECTED_TYPE",-1);
+            movieType=receiveBundle.getInt(AppConstants.SELECTED_MOVIE_LIST_TYPE,-1);
            if (movieType ==0)
               fetchPopularMovies();
            else if(movieType==1)
@@ -140,7 +141,7 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
             Movie movie = movieList.get(position);
             Fragment fragment=new MovieFragment();
             Bundle arguments=new Bundle();
-            arguments.putParcelable("MOVIE",movie);
+            arguments.putParcelable(AppConstants.SELECTED_MOVIE,movie);
             fragment.setArguments(arguments);
             return fragment;
         }

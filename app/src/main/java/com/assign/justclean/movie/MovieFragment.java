@@ -1,5 +1,6 @@
 package com.assign.justclean.movie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,16 +13,19 @@ import android.widget.TextView;
 
 import com.assign.justclean.R;
 import com.assign.justclean.glide.GlideApp;
+import com.assign.justclean.misc.AppConstants;
 import com.assign.justclean.model.Movie;
+import com.assign.justclean.movie.detail.MovieDetailActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 
-public class MovieFragment extends Fragment {
+public class MovieFragment extends Fragment implements View.OnClickListener {
 
-
+    //selected movie for display
+    Movie movie;
 
     @Nullable
     @Override
@@ -32,6 +36,7 @@ public class MovieFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.setOnClickListener(this);
         Bundle receiveBundle=getArguments();
         TextView nameTV=view.findViewById(R.id.movie_name);
         TextView movieLengthTV=view.findViewById(R.id.movie_length);
@@ -40,10 +45,10 @@ public class MovieFragment extends Fragment {
         ImageView movieImage=view.findViewById(R.id.movie_image);
 
         if(receiveBundle!=null&&!receiveBundle.isEmpty()){
-            Movie movie=receiveBundle.getParcelable("MOVIE");
+            movie=receiveBundle.getParcelable(AppConstants.SELECTED_MOVIE);
             if(movie!=null) {
                 nameTV.setText(movie.getTitle());
-                String imageServerUrl="https://image.tmdb.org/t/p/w500"+movie.getPosterPath();
+                String imageServerUrl=AppConstants.MOVIE_IMAGE_URL_PATH+movie.getPosterPath();
                 GlideApp.with(this)
                         .load(imageServerUrl).placeholder(R.drawable.placeholder)
                         .override(movieImage.getWidth(), movieImage.getHeight())
@@ -60,6 +65,22 @@ public class MovieFragment extends Fragment {
 
 
         //Glide.with(this).
+    }
+
+    @Override
+    public void onClick(View view) {
+        startMovieDetailScreen();
+
+
+    }
+
+    public void startMovieDetailScreen(){
+        if(movie!=null) {
+            Intent movieDetailsIntent = new Intent(getContext(), MovieDetailActivity.class);
+            movieDetailsIntent.putExtra(AppConstants.MOVIE_ID,movie.getId());
+            movieDetailsIntent.putExtra(AppConstants.SELECTED_MOVIE_NAME,movie.getTitle());
+            startActivity(movieDetailsIntent);
+        }
     }
 
     public String formatDate(String unFormattedDate){

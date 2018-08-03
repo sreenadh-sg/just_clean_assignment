@@ -56,6 +56,13 @@ public class Movie implements Parcelable {
     @Expose
     private String releaseDate;
 
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres;
+    @SerializedName("revenue")
+    @Expose
+    private Integer revenue;
+
     /**
      * No args constructor for use in serialization
      *
@@ -101,6 +108,7 @@ public class Movie implements Parcelable {
 
         voteCount=parcel.readInt();
         id=parcel.readInt();
+        revenue=parcel.readInt();
         title=parcel.readString();
         posterPath=parcel.readString();
         originalLanguage=parcel.readString();
@@ -112,10 +120,28 @@ public class Movie implements Parcelable {
         popularity=parcel.readFloat();
         genreIds=new ArrayList<>();
         parcel.readList(genreIds,Integer.class.getClassLoader());
+        genres=new ArrayList<>();
+        parcel.readList(genres,Genre.class.getClassLoader());
         boolean[] array=new boolean[3];
         parcel.readBooleanArray(array);
         video=array[0];
         adult=array[1];
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public Integer getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Integer revenue) {
+        this.revenue = revenue;
     }
 
     @Override
@@ -128,6 +154,7 @@ public class Movie implements Parcelable {
 
         parcel.writeInt(voteCount);
         parcel.writeInt(id);
+        parcel.writeInt(revenue==null?1:revenue);
         parcel.writeString(title);
         parcel.writeString(posterPath);
         parcel.writeString(originalLanguage);
@@ -138,6 +165,7 @@ public class Movie implements Parcelable {
         parcel.writeFloat(voteAverage);
         parcel.writeFloat(popularity);
         parcel.writeList(genreIds);
+        parcel.writeList(genres);
         parcel.writeBooleanArray(new boolean[]{video!=null?video:false,adult!=null?adult:false});
 
 
@@ -254,6 +282,7 @@ public class Movie implements Parcelable {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
 
     public static final Creator CREATOR = new Creator() {
         public Movie createFromParcel(Parcel in) {
