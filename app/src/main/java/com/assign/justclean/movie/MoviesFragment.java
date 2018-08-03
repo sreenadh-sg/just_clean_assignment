@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.assign.justclean.R;
 import com.assign.justclean.misc.AppConstants;
@@ -33,6 +34,7 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
     MoviePresenter presenter;
 
     ProgressBar loadMoviesPB;
+    TextView resultStatusTV;
     ViewPager moviesViewPager;
     MovieSlidePagerAdapter movieSlidePagerAdapter;
     int movieType=-1;
@@ -46,8 +48,8 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle receiveBundle=getArguments();
-        moviesViewPager =  view.findViewById(R.id.pager);
-        loadMoviesPB=view.findViewById(R.id.load_movies);
+
+        initView(view);
         if(receiveBundle!=null&&!receiveBundle.isEmpty()){
             movieType=receiveBundle.getInt(AppConstants.SELECTED_MOVIE_LIST_TYPE,-1);
            if (movieType ==0)
@@ -63,6 +65,12 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
 
         movieSlidePagerAdapter = new MovieSlidePagerAdapter(getChildFragmentManager());
         moviesViewPager.setAdapter(movieSlidePagerAdapter);
+    }
+
+    public void initView(View view){
+        moviesViewPager =  view.findViewById(R.id.pager);
+        loadMoviesPB=view.findViewById(R.id.load_movies);
+        resultStatusTV=view.findViewById(R.id.result_status);
     }
 
 
@@ -100,9 +108,14 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
     public void displayMovies(MovieResponse movieResponse) {
         if(movieResponse!=null){
             List<Movie> result=movieResponse.getResults();
-            Log.v("Test","Size - "+result.size());
-            movieSlidePagerAdapter.setData(result);
-            movieSlidePagerAdapter.notifyDataSetChanged();
+            if(result.isEmpty()){
+                moviesViewPager.setVisibility(View.GONE);
+                resultStatusTV.setVisibility(View.VISIBLE);
+                resultStatusTV.setText(getString(R.string.no_data_found));
+            } else {
+                movieSlidePagerAdapter.setData(result);
+                movieSlidePagerAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -110,6 +123,7 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
     public void startProgressBar() {
         moviesViewPager.setVisibility(View.INVISIBLE);
         loadMoviesPB.setVisibility(View.VISIBLE);
+        resultStatusTV.setVisibility(View.GONE);
 
     }
 
@@ -121,6 +135,11 @@ public class MoviesFragment extends Fragment implements MovieDisplayContract.Mov
 
     @Override
     public void displayMovieError(Throwable throwable) {
+
+        moviesViewPager.setVisibility(View.INVISIBLE);
+        loadMoviesPB.setVisibility(View.INVISIBLE);
+        resultStatusTV.setVisibility(View.VISIBLE);
+        resultStatusTV.setText(getString(R.string.something_went_wrong));
 
     }
 

@@ -45,7 +45,10 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
     TextView titleTV,descriptionTV,genreTV,popularityTV,ratingTV,revenueTV,adultTV,voteCountTV,
             voteAverageTV;
     ConstraintLayout movieDetailLayout;
-    ProgressBar progressBar;
+    ProgressBar loadingProgressBar;
+
+    TextView resultStatusTV;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
 
 
         setContentView(R.layout.activity_movie_detail);
+
 
 
         initView();
@@ -119,7 +123,8 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
         movieDetailLayout=findViewById(R.id.movie_detail_view);
         toolbar =  findViewById(R.id.toolbar);
         collapsingToolbarLayout =  findViewById(R.id.collapsing_toolbar_layout);
-        progressBar=findViewById(R.id.loading_progress_bar);
+        loadingProgressBar=findViewById(R.id.loading_progress_bar);
+        resultStatusTV=findViewById(R.id.result_status);
     }
 
     @Override
@@ -142,14 +147,15 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
     @Override
     public void startProgressBar() {
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadingProgressBar.setVisibility(View.VISIBLE);
         movieDetailLayout.setVisibility(View.GONE);
+        resultStatusTV.setVisibility(View.GONE);
 
     }
 
     @Override
     public void stopProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        loadingProgressBar.setVisibility(View.GONE);
         movieDetailLayout.setVisibility(View.VISIBLE);
 
     }
@@ -157,7 +163,6 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
     @Override
     public void displayMovie(Movie movie) {
 
-        Log.v("Restult","Result -"+movie.getTitle());
 
         String coverPageUrl=AppConstants.MOVIE_IMAGE_URL_PATH+movie.getBackdropPath();
         GlideApp.with(this)
@@ -224,6 +229,10 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
 
     @Override
     public void displayMovieError(Throwable throwable) {
+        movieDetailLayout.setVisibility(View.INVISIBLE);
+        loadingProgressBar.setVisibility(View.INVISIBLE);
+        resultStatusTV.setVisibility(View.VISIBLE);
+        resultStatusTV.setText(getString(R.string.something_went_wrong));
 
     }
 

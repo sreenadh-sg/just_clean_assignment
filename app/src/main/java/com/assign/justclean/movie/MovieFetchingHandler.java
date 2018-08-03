@@ -32,6 +32,10 @@ public class MovieFetchingHandler {
         return retrofit.create(NetworkInterface.class)
                 .getMovie(movieID, AppConstants.API_KEY);
     }
+    public Observable<MovieResponse> searchMovieObservable(String query){
+        return retrofit.create(NetworkInterface.class)
+                .searchMovie(AppConstants.API_KEY,query);
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.assign.justclean.movie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 
 import com.assign.justclean.R;
 import com.assign.justclean.misc.AppConstants;
+import com.assign.justclean.movie.search.MovieSearchActivity;
 
 import javax.inject.Inject;
 
@@ -33,13 +35,16 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
 
         AndroidInjection.inject(this);
         setContentView(R.layout.activity_movie);
-        toolbar=findViewById(R.id.toolbar);
+        initView();
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
-
-        tabLayout= findViewById(R.id.tabs);
         setupTabs();
 
+    }
+
+    public void initView(){
+        toolbar=findViewById(R.id.toolbar);
+        tabLayout= findViewById(R.id.tabs);
     }
     public void setupTabs(){
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.popular_text)));
@@ -82,8 +87,19 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
         return true;
     }
 
+    public void startSearchActivity(){
+        Intent intent=new Intent(this, MovieSearchActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        int selectedItemID=item.getItemId();
+
+        if(selectedItemID==R.id.action_search){
+            startSearchActivity();
+        }
         return super.onOptionsItemSelected(item);
     }
 

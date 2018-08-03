@@ -8,6 +8,9 @@ import com.assign.justclean.movie.MoviesFragment;
 import com.assign.justclean.movie.detail.MovieDetailActivity;
 import com.assign.justclean.movie.detail.MovieDetailModule;
 import com.assign.justclean.movie.detail.MovieDetailViewModule;
+import com.assign.justclean.movie.search.MovieSearchActivity;
+import com.assign.justclean.movie.search.MovieSearchModule;
+import com.assign.justclean.movie.search.MovieSearchViewModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -22,4 +25,6 @@ public abstract class BuildersModule {
     abstract MoviesFragment bindMovieFragment();
     @ContributesAndroidInjector(modules = {MovieDetailViewModule.class, MovieDetailModule.class})
     abstract MovieDetailActivity bindMovieDetailActivity();
+    @ContributesAndroidInjector(modules = {MovieSearchViewModule.class, MovieSearchModule.class})
+    abstract MovieSearchActivity bindMovieSearchActivity();
 }

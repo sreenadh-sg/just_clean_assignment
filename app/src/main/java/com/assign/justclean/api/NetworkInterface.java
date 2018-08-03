@@ -18,4 +18,6 @@ public interface NetworkInterface {
     @GET("movie/{id}")
     Observable<Movie> getMovie(@Path("id") String movieID, @Query("api_key") String
             api_key);
+    @GET("search/movie")
+    Observable<MovieResponse> searchMovie(@Query("api_key") String api_key,@Query("query") String query);
 }
