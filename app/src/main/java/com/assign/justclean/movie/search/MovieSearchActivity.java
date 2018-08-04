@@ -52,7 +52,7 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
         AndroidInjection.inject(this);
 
         setContentView(R.layout.activity_movie_search);
-
+        //initialize all required views
         initView();
 
         //setting toolbar as Actionbar
@@ -81,6 +81,8 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
         movieListRecyclerView =  findViewById(R.id.movie_recyclerview);
     }
 
+
+
     @Override
     public void startProgressBar() {
         loadingProgressBar.setVisibility(View.VISIBLE);
@@ -98,10 +100,14 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
 
     }
 
+    /**
+     *
+     * @param movies displaying list of movies according to user query
+     */
+
     @Override
     public void displayMovies(List<Movie> movies) {
 
-        Log.v("Test","Size-"+movies.size());
         if(movies.isEmpty()){
             movieListRecyclerView.setVisibility(View.GONE);
             resultStatusTV.setVisibility(View.VISIBLE);
@@ -114,6 +120,10 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
 
     }
 
+    /**
+     *
+     * @param throwable error information ,while perform api call if error is occurred this method get executed
+     */
 
     @Override
     public void displayMovieError(Throwable throwable) {
@@ -125,6 +135,11 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
 
     }
 
+    /**
+     *
+     * when search is getting closed ,clearing recyclerview
+     * @return
+     */
     @Override
     public boolean onClose() {
         if(moviesAdapter!=null){
@@ -143,7 +158,9 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
         //setting search view
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         searchView.setQueryHint(getString(R.string.movie_name_text));
+        //set listener query listener for SearchView
         searchView.setOnQueryTextListener(this);
+        //adding search view close listener
         searchView.setOnCloseListener(this);
         searchView.onActionViewExpanded();
 
@@ -167,7 +184,7 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
     @Override
     public boolean onQueryTextSubmit(String query) {
 
-
+        //when user submit query
         movieSearchPresenter.searchMovie(query);
         return false;
     }
@@ -175,6 +192,7 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
     @Override
     public boolean onQueryTextChange(String newText) {
 
+        //if user clean search view recycler view clears
         if(newText.isEmpty()&&moviesAdapter!=null){
             moviesList.clear();
             moviesAdapter.notifyDataSetChanged();

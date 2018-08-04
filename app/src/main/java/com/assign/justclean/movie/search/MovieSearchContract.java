@@ -37,6 +37,11 @@ public interface MovieSearchContract {
     }
 
     public interface MovieSearchPresenter{
+
+        /**
+         *
+         * @param query search query provided by view
+         */
         void searchMovie(String query);
     }
 }

@@ -17,11 +17,21 @@ import retrofit2.Retrofit;
 @Module
 public class MovieSearchModule {
 
+    /**
+     *
+     * @return provide RetrofitClientInstance when dependency injection happened
+     */
     @Provides
     Retrofit provideRetrofit() {
         return RetrofitClientInstance.getRetrofit();
     }
-
+    /**
+     *
+     * @param movieView MovieSearchContract.MovieSearchView
+     * @param movieFetchingHandler MovieFetchingHandler for api call
+     * @param schedulersFacade Scheduler for Rx event
+     * @return
+     */
     @Provides
     MovieSearchPresenter provideMovieDetailPresenter(MovieSearchContract.MovieSearchView movieView,
                                                                          MovieFetchingHandler movieFetchingHandler,

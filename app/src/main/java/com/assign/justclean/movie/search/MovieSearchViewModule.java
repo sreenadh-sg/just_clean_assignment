@@ -15,6 +15,11 @@ import dagger.Module;
 @Module
 public abstract class MovieSearchViewModule {
 
+  /**
+   *
+   * @param movieSearchActivity MovieSearchActivity instance
+   * @return MovieDisplayContract.MovieView
+   */
   @Binds
   abstract MovieSearchContract.MovieSearchView provideMovieSearchView(MovieSearchActivity movieSearchActivity);
 }

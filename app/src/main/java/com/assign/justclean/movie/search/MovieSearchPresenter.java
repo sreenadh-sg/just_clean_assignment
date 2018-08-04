@@ -21,10 +21,17 @@ public class MovieSearchPresenter extends BasePresenter<MovieSearchContract.Movi
         MovieSearchContract.MovieSearchPresenter {
     private static final String TAG = "MoviePresenter";
 
+    //handling api calls
     MovieFetchingHandler movieFetchingHandler;
-
+    // provide scheduler
     private final SchedulersFacade schedulersFacade;
 
+    /**
+     *
+     * @param view MovieSearchContract.MovieSearchView for handling view operation
+     * @param movieFetchingHandler MovieFetchingHandler for api handling
+     * @param schedulersFacade Scheduler for Rx event
+     */
     public MovieSearchPresenter(MovieSearchContract.MovieSearchView view, MovieFetchingHandler
             movieFetchingHandler, SchedulersFacade schedulersFacade){
         super(view);
@@ -33,14 +40,16 @@ public class MovieSearchPresenter extends BasePresenter<MovieSearchContract.Movi
     }
 
 
-
-
+    /**
+     *
+     * @param query search query provided by view
+     */
     @Override
     public void searchMovie(String query) {
 
         view.startProgressBar();
 
-
+        //add disposable to CompositeDisposable
         addDisposible(movieFetchingHandler.searchMovieObservable(query).subscribeOn
                 (schedulersFacade
                         .io())
@@ -52,6 +61,10 @@ public class MovieSearchPresenter extends BasePresenter<MovieSearchContract.Movi
         super.stop();
     }
 
+    /**
+     *
+     * @return returning Observer of type MovieResponse
+     */
     public DisposableObserver<MovieResponse> getMoviesListObserver(){
         return new DisposableObserver<MovieResponse>() {
             @Override

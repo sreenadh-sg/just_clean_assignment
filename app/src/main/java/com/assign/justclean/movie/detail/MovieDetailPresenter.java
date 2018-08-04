@@ -50,6 +50,7 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
         view.startProgressBar();
 
 
+        //add disposable to CompositeDisposable
         addDisposible(movieFetchingHandler.getMovieObservable(String.valueOf(movieID)).subscribeOn
                 (schedulersFacade
                 .io())
