@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:56
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:47
+ */
+
 package com.assign.justclean.movie;
 
 import android.content.Intent;
@@ -32,12 +38,14 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //adding dependency injection
         AndroidInjection.inject(this);
         setContentView(R.layout.activity_movie);
+        //initializing all required views
         initView();
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
+        //setting tabs for different movie type
         setupTabs();
 
     }
@@ -87,6 +95,9 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
         return true;
     }
 
+    /**
+     * starting activity for movie search
+     */
     public void startSearchActivity(){
         Intent intent=new Intent(this, MovieSearchActivity.class);
         startActivity(intent);
@@ -103,6 +114,10 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *
+     * @param position adding selected type of MoviesFragment
+     */
     public void addFragment(int position){
 
 
@@ -111,7 +126,9 @@ public class MovieActivity extends AppCompatActivity implements HasSupportFragme
             fragmentTransaction.replace(R.id.container, movieFragment,
                     MoviesFragment.class.getName());
             Bundle arguments=new Bundle();
+            //set movie type to bundle
             arguments.putInt(AppConstants.SELECTED_MOVIE_LIST_TYPE,position);
+            //set argument in fragment
             movieFragment.setArguments(arguments);
 
             // Commit the transaction

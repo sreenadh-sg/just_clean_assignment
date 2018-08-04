@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:56
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:47
+ */
+
 package com.assign.justclean.movie;
 
 import android.content.Intent;
@@ -38,17 +44,25 @@ public class MovieFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         view.setOnClickListener(this);
         Bundle receiveBundle=getArguments();
+
+        /**
+         * Initializing views
+         */
         TextView nameTV=view.findViewById(R.id.movie_name);
         TextView movieLengthTV=view.findViewById(R.id.movie_length);
         TextView movieReleaseDateTV=view.findViewById(R.id.release_date);
-
         ImageView movieImage=view.findViewById(R.id.movie_image);
 
         if(receiveBundle!=null&&!receiveBundle.isEmpty()){
+            //reading transferred data from activity
             movie=receiveBundle.getParcelable(AppConstants.SELECTED_MOVIE);
             if(movie!=null) {
                 nameTV.setText(movie.getTitle());
+
+                //Image url present in the server
                 String imageServerUrl=AppConstants.MOVIE_IMAGE_URL_PATH+movie.getPosterPath();
+
+                //Glide for handling image cache
                 GlideApp.with(this)
                         .load(imageServerUrl).placeholder(R.drawable.placeholder)
                         .override(movieImage.getWidth(), movieImage.getHeight())
@@ -64,11 +78,12 @@ public class MovieFragment extends Fragment implements View.OnClickListener {
 
 
 
-        //Glide.with(this).
     }
 
     @Override
     public void onClick(View view) {
+
+        //starting MovieDetailActivity for displaying more details about selected movie
         startMovieDetailScreen();
 
 
@@ -77,12 +92,19 @@ public class MovieFragment extends Fragment implements View.OnClickListener {
     public void startMovieDetailScreen(){
         if(movie!=null) {
             Intent movieDetailsIntent = new Intent(getContext(), MovieDetailActivity.class);
+            //adding selected movie id  into intent
             movieDetailsIntent.putExtra(AppConstants.MOVIE_ID,movie.getId());
+            //adding selected movie title  into intent
             movieDetailsIntent.putExtra(AppConstants.SELECTED_MOVIE_NAME,movie.getTitle());
             startActivity(movieDetailsIntent);
         }
     }
 
+    /**
+     *
+     * @param unFormattedDate string date for format
+     * @return string date (dd MMM yyyy) eg:(24 Jul 2015)
+     */
     public String formatDate(String unFormattedDate){
         String formattedDate="";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

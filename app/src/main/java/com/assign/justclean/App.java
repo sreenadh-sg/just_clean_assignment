@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:51
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:43
+ */
+
 package com.assign.justclean;
 
 import android.app.Activity;
@@ -19,7 +25,9 @@ public class App extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        /**
+         * initialize DaggerAppComponent
+         */
         DaggerAppComponent
                 .builder()
                 .application(this)

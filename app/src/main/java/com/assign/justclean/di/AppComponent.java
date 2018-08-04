@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:57
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:43
+ */
+
 package com.assign.justclean.di;
 
 
@@ -11,7 +17,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
 @Component(modules = {
-        /* Use AndroidInjectionModule.class if you're not using support library */
         AndroidSupportInjectionModule.class,
         AppModule.class,
         BuildersModule.class})

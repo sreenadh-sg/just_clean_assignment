@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:56
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:47
+ */
+
 package com.assign.justclean.movie.search;
 
 import android.content.Context;
@@ -20,6 +26,7 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
 
+    //Movie list for display
     private List<Movie> moviesList;
     Context context;
 
@@ -30,11 +37,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView movieNameTV, releaseDateTV, ratingTV;
-        public ImageView posterImage;
+        private TextView movieNameTV, releaseDateTV, ratingTV;
+        private ImageView posterImage;
 
-        public MyViewHolder(View view) {
+        private MyViewHolder(View view) {
             super(view);
+
+            //initializing view
             movieNameTV = (TextView) view.findViewById(R.id.movie_name);
             releaseDateTV = (TextView) view.findViewById(R.id.release_date);
             ratingTV = (TextView) view.findViewById(R.id.movie_rating);
@@ -56,11 +65,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Movie movie = moviesList.get(position);
+
+        //setting movie details in holder
         holder.movieNameTV.setText(movie.getTitle());
         holder.releaseDateTV.setText(formatDate(movie.getReleaseDate()));
         String ratingText=String.valueOf(movie.getVoteAverage())+"/10";
         holder.ratingTV.setText(ratingText);
+
+        //server image url
         String imageServerUrl= AppConstants.MOVIE_IMAGE_URL_PATH+movie.getPosterPath();
+        //setting poster image
         GlideApp.with(context)
                 .load(imageServerUrl).placeholder(R.drawable.placeholder)
                 .override(holder.posterImage.getWidth(), holder.posterImage.getHeight())
@@ -73,6 +87,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         return moviesList.size();
     }
 
+    /**
+     *
+     * @param unFormattedDate string date for format
+     * @return string date (dd MMM yyyy) eg:(24 Jul 2015)
+     */
     public String formatDate(String unFormattedDate){
         String formattedDate="";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

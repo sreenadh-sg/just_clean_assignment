@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:57
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:43
+ */
+
 package com.assign.justclean.model;
 
 import com.google.gson.annotations.Expose;

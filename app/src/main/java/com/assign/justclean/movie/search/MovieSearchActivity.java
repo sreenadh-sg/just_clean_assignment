@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:56
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:47
+ */
+
 package com.assign.justclean.movie.search;
 
 import android.support.v7.app.AppCompatActivity;
@@ -42,17 +48,24 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //injecting required dependency
         AndroidInjection.inject(this);
+
         setContentView(R.layout.activity_movie_search);
+
         initView();
 
+        //setting toolbar as Actionbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+
         moviesList=new ArrayList<>();
 
 
 
+        //initialize movie adapter
         moviesAdapter = new MoviesAdapter(this,moviesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         movieListRecyclerView.setLayoutManager(mLayoutManager);
@@ -101,6 +114,7 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
 
     }
 
+
     @Override
     public void displayMovieError(Throwable throwable) {
 
@@ -126,8 +140,9 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
 
         getMenuInflater().inflate(R.menu.app_menu_search,menu);
 
+        //setting search view
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setQueryHint("Movie Name");
+        searchView.setQueryHint(getString(R.string.movie_name_text));
         searchView.setOnQueryTextListener(this);
         searchView.setOnCloseListener(this);
         searchView.onActionViewExpanded();
@@ -151,6 +166,7 @@ public class MovieSearchActivity extends AppCompatActivity implements SearchView
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+
 
         movieSearchPresenter.searchMovie(query);
         return false;

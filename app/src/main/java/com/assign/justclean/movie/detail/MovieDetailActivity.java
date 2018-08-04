@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:57
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:47
+ */
+
 package com.assign.justclean.movie.detail;
 
 import android.graphics.drawable.BitmapDrawable;
@@ -53,6 +59,8 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //perform android injection
         AndroidInjection.inject(this);
 
 
@@ -60,18 +68,24 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
 
 
 
+        //initializing all the views
         initView();
+        //setting toolbar as action bar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-
+        // movieID received from user selection
         int movieID=getIntent().getIntExtra(AppConstants.MOVIE_ID,-1);
+        // movieName received from user selection
         String movieName = getIntent().getStringExtra(AppConstants.SELECTED_MOVIE_NAME);
-        if(movieID>0)
+        if(movieID>0) {
+            //fetching more details
             fetchMovie(movieID);
+        }
 
         collapsingToolbarLayout.setTitle(movieName);
 
+        //setting cover image for selected movie
         GlideApp.with(this)
                 .load(R.drawable.placeholder)
                 .override(coverIMV.getWidth(), coverIMV.getHeight()).listener(new
@@ -136,7 +150,7 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         int id = item.getItemId();
-
+        //handling action bar back button
         if (id == android.R.id.home) {
             finish();
         }
@@ -163,13 +177,16 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
     @Override
     public void displayMovie(Movie movie) {
 
-
+        //setting server image url
         String coverPageUrl=AppConstants.MOVIE_IMAGE_URL_PATH+movie.getBackdropPath();
+
+        //setting cover image for selected movie
         GlideApp.with(this)
                 .load(coverPageUrl)
                 .override(coverIMV.getWidth(), coverIMV.getHeight())
                 .into(coverIMV);
         String posterImage=AppConstants.MOVIE_IMAGE_URL_PATH+movie.getPosterPath();
+        //setting cover image for selected movie
         GlideApp.with(this)
                 .load(posterImage)
                 .override(posterIMV.getWidth(), posterIMV.getHeight()).listener(new RequestListener<Drawable>() {
@@ -190,6 +207,7 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
                         public void onGenerated(@NonNull Palette palette) {
                             Palette.Swatch vibrantSwatch=palette.getDarkVibrantSwatch();
                             if(vibrantSwatch!=null){
+                                //setting color from Palette
                                 collapsingToolbarLayout.setContentScrimColor(vibrantSwatch.getRgb());
                                 toolbar.setTitleTextColor(vibrantSwatch.getTitleTextColor());
 
@@ -204,10 +222,13 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
                 .into(posterIMV);
         titleTV.setText(movie.getOriginalTitle());
         String genresTxtForDisplay="";
+        //setting genre name  from Genre list
         for (Genre genre:movie.getGenres()){
             genresTxtForDisplay=genresTxtForDisplay.isEmpty()?"":(genresTxtForDisplay+",");
             genresTxtForDisplay=genresTxtForDisplay+genre.name;
         }
+
+        //displaying fetched movie details
         genreTV.setText(genresTxtForDisplay);
         descriptionTV.setText(movie.getOverview());
         popularityTV.setText(String.valueOf(movie.getPopularity()));
@@ -226,7 +247,10 @@ public class MovieDetailActivity extends AppCompatActivity  implements MovieDeta
     }
 
 
-
+    /**
+     *
+     * @param throwable error information ,while perform api call if error is occurred this method get executed
+     */
     @Override
     public void displayMovieError(Throwable throwable) {
         movieDetailLayout.setVisibility(View.INVISIBLE);

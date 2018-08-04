@@ -25,4 +25,5 @@
     <string name="action_search">Search</string>
     <string name="no_data_found">No Data found</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="movie_name_text">"Movie Name"</string>
 </resources>

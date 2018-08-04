@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:58
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:43
+ */
+
 package com.assign.justclean.api;
 
 import okhttp3.OkHttpClient;
@@ -6,19 +12,15 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
-
+    //retrofit instance
     private static Retrofit retrofit;
 
-    /*public static Retrofit getRetrofitInstance() {
-        if (retrofit == null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(AppConstants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return retrofit;
-    }*/
+    //Get Retrofit  instance for api call
 
+    /**
+     *
+     * @return  Get Retrofit  instance for api call
+     */
     public static Retrofit getRetrofit() {
 
         if (retrofit == null) {

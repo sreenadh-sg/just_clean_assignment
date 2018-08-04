@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:57
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:47
+ */
+
 package com.assign.justclean.model;
 
 import android.os.Parcel;
@@ -104,6 +110,11 @@ public class Movie implements Parcelable {
         this.overview = overview;
         this.releaseDate = releaseDate;
     }
+
+    /**
+     *
+     * @param parcel reading data from parcel
+     */
     public Movie(Parcel parcel){
 
         voteCount=parcel.readInt();
@@ -149,6 +160,11 @@ public class Movie implements Parcelable {
         return 0;
     }
 
+    /**
+     *
+     * @param parcel preparing instance properties for parceling
+     * @param i
+     */
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 

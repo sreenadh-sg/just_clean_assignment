@@ -1,3 +1,9 @@
+/*
+ * Created by Sreenadh S Pillai on 04/08/18 11:56
+ * Copyright (c) 2018 . All rights reserved
+ * Last modified 04/08/18 11:47
+ */
+
 package com.assign.justclean.movie.detail;
 
 import android.support.annotation.NonNull;
@@ -21,6 +27,12 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
 
     private final SchedulersFacade schedulersFacade;
 
+    /**
+     *
+     * @param view MovieDetailContract.MovieDetailView for handling view operation
+     * @param movieFetchingHandler MovieFetchingHandler for api handling
+     * @param schedulersFacade Scheduler for Rx event
+     */
     public MovieDetailPresenter(MovieDetailContract.MovieDetailView view, MovieFetchingHandler
             movieFetchingHandler, SchedulersFacade schedulersFacade){
         super(view);
@@ -28,7 +40,10 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
         this.schedulersFacade=schedulersFacade;
     }
 
-
+    /**
+     *
+     * @param movieID movieID obtained from server
+     */
     @Override
     public void fetchMovie(int movieID) {
 
@@ -49,6 +64,10 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailContract.Movi
         super.stop();
     }
 
+    /**
+     *
+     * @return returning Observer of type MovieResponse
+     */
     public DisposableObserver<Movie> getMovieObserver(){
         return new DisposableObserver<Movie>() {
             @Override
